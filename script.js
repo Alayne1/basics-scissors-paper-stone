@@ -28,11 +28,30 @@ var generateGuess = function () {
   if (randomComputerGuess == 2) {
     return "paper";
   }
-  if (randomComputerGuess == 3) {
-    return "stone";
-  }
-  // This is the ELse statement
-  return "Oops! There was a mistake!";
+  return "stone";
+};
+
+// refactor: create function to check winning conditions outside of main
+var playerIsWinning = function (playerGuess, computerGuess) {
+  return (
+    (playerGuess == "scissors" && computerGuess == "paper") ||
+    (playerGuess == "paper" && computerGuess == "stone") ||
+    (playerGuess == "stone" && computerGuess == "scissors")
+  );
+};
+
+// refactor: create function to check losing conditions outside of main
+var playerIsLosing = function (playerGuess, computerGuess) {
+  return (
+    (playerGuess == "scissors" && computerGuess == "stone") ||
+    (playerGuess == "paper" && computerGuess == "scissors") ||
+    (playerGuess == "stone" && computerGuess == "paper")
+  );
+};
+
+// refactor: create function to check draw conditions outside of main
+var playerDraws = function (playerGuess, computerGuess) {
+  return playerGuess == computerGuess;
 };
 
 var main = function (input) {
@@ -54,28 +73,19 @@ var main = function (input) {
     //console.log("this is players guess", playerGuess);
     countOfRounds += 1;
     //console.log("this is the count of rounds", countOfRounds);
-    if (computerGuess == playerGuess) {
-      return `<b>It's a draw!</b> <br><br> ${outcomeOutput} <br> You have won ${countOfWins}/${countOfRounds} rounds.`;
+
+    if (playerDraws(playerGuess, computerGuess)) {
+      return `<b>It's a draw!</b> <br><br> ${outcomeOutput}  <br> You have won ${countOfWins}/${countOfRounds} rounds.`;
     }
-    // user chooses Scissors AND computer chooses Paper
-    // OR  Paper AND Stone OR Stone and Scissors = WIN
-    if (
-      (playerGuess == "scissors" && computerGuess == "paper") ||
-      (playerGuess == "paper" && computerGuess == "stone") ||
-      (playerGuess == "stone" && computerGuess == "scissors")
-    ) {
+
+    if (playerIsWinning(playerGuess, computerGuess)) {
       countOfWins += 1;
-      console.log("this is the count of wins", countOfWins);
-      return `<b>You win!</b>🥳 <br><br> ${outcomeOutput} <br> You have won ${countOfWins}/${countOfRounds} rounds.`;
+      //console.log("this is the count of wins", countOfWins);
+      return `<b>You win!</b> <br><br> ${outcomeOutput} <br> You have won ${countOfWins}/${countOfRounds} rounds.`;
     }
-    // user chooses Scissors AND computer chooses Stone
-    // OR  Paper AND Scissors OR Stone AND Paper
-    if (
-      (playerGuess == "scissors" && computerGuess == "stone") ||
-      (playerGuess == "paper" && computerGuess == "scissors") ||
-      (playerGuess == "stone" && computerGuess == "paper")
-    ) {
-      return `<b>You lose</b>🤷 <br><br> ${outcomeOutput} <br> You have won ${countOfWins}/${countOfRounds} rounds.`;
+
+    if (playerIsLosing(playerGuess, computerGuess)) {
+      return `<b>You lose!</b> <br><br> ${outcomeOutput} <br> You have won ${countOfWins}/${countOfRounds} rounds.`;
     }
     return `Please input a valid guess of scissors, paper or stone!`;
   }
