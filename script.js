@@ -60,18 +60,21 @@ var main = function (input) {
     // if the game mode is user name... set the name as the input
     userName = input;
     // now that we have the name, switch the mode
-    currentGameMode = "SPS";
+    currentGameMode = "SPS start";
     myOutputValue = "Hello " + userName + ", enter a guess to start the game!";
     return myOutputValue;
-  } else if (currentGameMode == "SPS") {
+  }
+
+  if (currentGameMode == "SPS start") {
     // if the game mode is SPS game... define playerGuess as the input
     var playerGuess = input;
     // then return to SPS game logic
     var computerGuess = generateGuess();
-    //console.log("This is what the computer played: ", computerGuess);
     var outcomeOutput = `Your guess: ${playerGuess}. Computer's guess: ${computerGuess}.`;
-    //console.log("this is players guess", playerGuess);
     countOfRounds += 1;
+
+    //console.log("This is what the computer played: ", computerGuess);
+    //console.log("this is players guess", playerGuess);
     //console.log("this is the count of rounds", countOfRounds);
 
     if (playerDraws(playerGuess, computerGuess)) {
